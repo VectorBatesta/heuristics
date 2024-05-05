@@ -1,4 +1,5 @@
 from main import nodeState
+import copy
 
 
 def gerar_filhos(nodePai: nodeState):

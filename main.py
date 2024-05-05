@@ -117,7 +117,8 @@ if __name__ == "__main__":
         case 2:
             resultado, filhoFinal = heuristicabasica(raiz, matrizObjetivo)
         case 1:
-            resultado, filhoFinal = DFS(raiz, matrizObjetivo, nivelMax)
+            # resultado, filhoFinal = DFS(raiz, matrizObjetivo, nivelMax)
+            breakpoint
         case _:
             exit("1 ou 2 pls!")
             
