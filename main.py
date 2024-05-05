@@ -19,7 +19,7 @@ def atualizaErrados(node: nodeState, matrizobj):
     node.errados = 0
 
     for i in range(9):
-        if node.matriz[i] == matrizobj[i]:
+        if node.matriz[i] != matrizobj[i]:
             node.errados += 1
 
     return node.errados   
@@ -72,8 +72,10 @@ def heuristicabasica(raiz: nodeState, obj):
         
         listanova = gerar_filhos(X)
         for node in listanova:
+            [fazer: nao botar no igual no abertos]
             ABERTOS.append(node)
-
+        
+        printanode(X)
 
 
 
@@ -100,8 +102,8 @@ def heuristica_naobasica(raiz: nodeState, obj):
 
 if __name__ == "__main__":
     #0 = vazio
-    raiz = nodeState([1, 2, 3,
-                      4, 5, 6,
+    raiz = nodeState([4, 3, 5,
+                      1, 2, 6,
                       7, 0, 8])
     matrizObjetivo = [1, 2, 3,
                       4, 5, 6,
@@ -137,9 +139,11 @@ if __name__ == "__main__":
 
 
 
-    print(f'{resultado}!')
+    print(f'\n\n\n{resultado}!')
     if resultado == 'SUCESSO':
-        print(f' nível achado: {filhoFinal.nivel}, printando caminho:\n ')
+        print(f'\n\tNível achado: {filhoFinal.nivel}, nó final:')
+        printanode(filhoFinal)
+        print(f'\tPrintando caminho:\n ', end='')
     
     movimentos = []
     while filhoFinal.pai != None:
@@ -148,4 +152,4 @@ if __name__ == "__main__":
     
     for i in reversed(range(len(movimentos))):
         print(f'{movimentos[i]}, ', end='')
-    
+    print(f'\n')

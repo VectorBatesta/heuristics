@@ -96,7 +96,7 @@ def printanode(X: nodeState):
     print(f'matriz: ', end='')
     for i in range(3):
         print(f'{X.matriz[i]}, ', end='')
-    print(f'   nivel: {X.nivel},   movimento: {X.movimento}\n        ', end='')
+    print(f'   nivel: {X.nivel}\t   movimento: {X.movimento}\t   errados: {X.errados}\n        ', end='')
     for i in range(3, 6):
         print(f'{X.matriz[i]}, ', end='')
     print(f'\n        ', end='')
