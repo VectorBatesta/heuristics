@@ -15,9 +15,66 @@ class nodeState:
         
         
 
+def atualizaErrados(node: nodeState, matrizobj):
+    node.errados = 0
+
+    for i in range(9):
+        if node.matriz[i] == matrizobj[i]:
+            node.errados += 1
+
+    return node.errados   
 
 
+
+
+
+
+def escolheMelhor(lista):
+    if lista == []:
+        exit(f'bro pq q a lista ta empty')
+
+    node_escolhido = None
+    menorvalor = 999
+
+    #acha o nó da lista com menor .errados
+    for i in range(len(lista)):
+        if lista[i].errados < menorvalor:
+            menorvalor = lista[i].errados
+            node_escolhido = i
+
+    return lista.pop(node_escolhido) #envia o nó da lista pro return
+    
+
+
+
+
+
+
+
+
+def heuristicabasica(raiz: nodeState, obj):
+    ABERTOS = [raiz]
+    FECHADOS = []
+    
+    while ABERTOS != []:
+        #pega o nó dos abertos (ou seja, sem filhos) com menor quant de errados
+        X = escolheMelhor(ABERTOS) #escolheMelhor dá pop() em ABERTOS
+        FECHADOS.append(X)
+
+        atualizaErrados(X, obj)
         
+        #se errados == 0, entao é o objetivo!
+        if X.errados == 0: 
+            return 'ACHOU', X
+        
+        listanova = gerar_filhos(X)
+        for node in listanova:
+            ABERTOS.append(node)
+
+
+
+
+
 
 
 
@@ -58,7 +115,7 @@ if __name__ == "__main__":
     
     match escolha:
         case 2:
-            resultado, filhoFinal = BFS(raiz, matrizObjetivo, nivelMax)
+            resultado, filhoFinal = heuristicabasica(raiz, matrizObjetivo)
         case 1:
             resultado, filhoFinal = DFS(raiz, matrizObjetivo, nivelMax)
         case _:
@@ -67,7 +124,7 @@ if __name__ == "__main__":
 
 
 
-            
+
     print(f'{resultado}!')
     if resultado == 'SUCESSO':
         print(f' nível achado: {filhoFinal.nivel}, printando caminho:\n ')
