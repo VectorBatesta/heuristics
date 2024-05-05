@@ -37,12 +37,13 @@ def escolheMelhor(lista):
     menorvalor = 999
 
     #acha o nó da lista com menor .errados
-    for i in range(len(lista)):
-        if lista[i].errados < menorvalor:
-            menorvalor = lista[i].errados
-            node_escolhido = i
+    for node in lista:
+        if node.errados < menorvalor:
+            menorvalor = node.errados
+            node_escolhido = node
 
-    return lista.pop(node_escolhido) #envia o nó da lista pro return
+    lista.remove(node_escolhido)
+    return node_escolhido #envia o nó da lista com errados menor pro return
     
 
 
@@ -53,9 +54,11 @@ def escolheMelhor(lista):
 
 
 def heuristicabasica(raiz: nodeState, obj):
+    atualizaErrados(raiz, obj)
+
     ABERTOS = [raiz]
     FECHADOS = []
-    
+
     while ABERTOS != []:
         #pega o nó dos abertos (ou seja, sem filhos) com menor quant de errados
         X = escolheMelhor(ABERTOS) #escolheMelhor dá pop() em ABERTOS
@@ -65,7 +68,7 @@ def heuristicabasica(raiz: nodeState, obj):
         
         #se errados == 0, entao é o objetivo!
         if X.errados == 0: 
-            return 'ACHOU', X
+            return 'SUCESSO', X
         
         listanova = gerar_filhos(X)
         for node in listanova:
@@ -75,6 +78,11 @@ def heuristicabasica(raiz: nodeState, obj):
 
 
 
+
+
+
+def heuristica_naobasica(raiz: nodeState, obj):
+    return
 
 
 
@@ -92,8 +100,12 @@ def heuristicabasica(raiz: nodeState, obj):
 
 if __name__ == "__main__":
     #0 = vazio
-    raiz = nodeState([1, 2, 3, 4, 5, 6, 7, 0, 8])
-    matrizObjetivo = [1, 2, 3, 4, 5, 6, 7, 8, 0]
+    raiz = nodeState([1, 2, 3,
+                      4, 5, 6,
+                      7, 0, 8])
+    matrizObjetivo = [1, 2, 3,
+                      4, 5, 6,
+                      7, 8, 0]
     
     nivelMax = -1
     escolha = -1
@@ -110,15 +122,14 @@ if __name__ == "__main__":
 
 
 
-    print(f'1-DFS, 2-BFS?: ', end='')
+    print(f'1-heuristica basica, 2-heuristica nao basica?: ', end='')
     escolha = int(input())
     
     match escolha:
-        case 2:
-            resultado, filhoFinal = heuristicabasica(raiz, matrizObjetivo)
         case 1:
-            # resultado, filhoFinal = DFS(raiz, matrizObjetivo, nivelMax)
-            breakpoint
+            resultado, filhoFinal = heuristicabasica(raiz, matrizObjetivo)
+        case 2:
+            resultado, filhoFinal = heuristica_naobasica(raiz, matrizObjetivo)
         case _:
             exit("1 ou 2 pls!")
             
@@ -136,5 +147,5 @@ if __name__ == "__main__":
         filhoFinal = filhoFinal.pai
     
     for i in reversed(range(len(movimentos))):
-        print(f'{movimentos[i]} ')
+        print(f'{movimentos[i]}, ', end='')
     
