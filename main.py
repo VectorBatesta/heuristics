@@ -53,7 +53,7 @@ def escolheMelhor(lista):
 
 
 
-def heuristicabasica(raiz: nodeState, obj):
+def heuristica_hill_climbing(raiz: nodeState, obj, nivelmax):
     atualizaErrados(raiz, obj)
 
     ABERTOS = [raiz]
@@ -71,10 +71,24 @@ def heuristicabasica(raiz: nodeState, obj):
             return 'SUCESSO', X
         
         listanova = gerar_filhos(X)
+        #detecta se nós novos sao repetidos ou sao acima do nivelmax
         for node in listanova:
-            [fazer: nao botar no igual no abertos]
-            ABERTOS.append(node)
-        
+            adicionarAbertos = True
+
+            if node.nivel > nivelmax:
+                adicionarAbertos = False
+
+            for nodefechado in FECHADOS:
+                if node.matriz == nodefechado.matriz:
+                    adicionarAbertos = False
+            
+            for nodeaberto in ABERTOS:
+                if node.matriz == nodeaberto.matriz:
+                    adicionarAbertos = False
+
+            if adicionarAbertos == True:
+                ABERTOS.append(node)
+        #############
         printanode(X)
 
 
@@ -83,7 +97,7 @@ def heuristicabasica(raiz: nodeState, obj):
 
 
 
-def heuristica_naobasica(raiz: nodeState, obj):
+def heuristica_melhorescolha(raiz: nodeState, obj):
     return
 
 
@@ -124,16 +138,17 @@ if __name__ == "__main__":
 
 
 
-    print(f'1-heuristica basica, 2-heuristica nao basica?: ', end='')
+    print(f'1-heuristica hill climbing, 2-heuristica melhor escolha?: ', end='')
     escolha = int(input())
     
     match escolha:
         case 1:
-            resultado, filhoFinal = heuristicabasica(raiz, matrizObjetivo)
+            resultado, filhoFinal = heuristica_hill_climbing(raiz, matrizObjetivo, nivelMax)
         case 2:
-            resultado, filhoFinal = heuristica_naobasica(raiz, matrizObjetivo)
+            exit(f'ainda nao feito!')
+            resultado, filhoFinal = heuristica_melhorescolha(raiz, matrizObjetivo, nivelMax)
         case _:
-            exit("1 ou 2 pls!")
+            exit(f'1 ou 2 pls!')
             
 
 
