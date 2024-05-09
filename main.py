@@ -69,6 +69,15 @@ def heuristica_hill_climbing(raiz: nodeState, obj, nivelmax):
 
 
 
+def arrumaMelhorPai(nodeFilho: nodeState, nodePai1: nodeState, nodePai2: nodeState):
+    if nodePai1.nivel < nodePai2.nivel:
+        nodeFilho.pai = nodePai1
+    elif nodePai2.nivel < nodePai1.nivel:
+        nodeFilho.pai = nodePai2
+        
+    
+    
+
 
 
 
@@ -104,6 +113,7 @@ def heuristica_melhorescolha(raiz: nodeState, obj, nivelmax):
             
             for nodeaberto in ABERTOS:
                 if node.matriz == nodeaberto.matriz:
+                    arrumaMelhorPai(nodeaberto, nodeaberto.pai, node.pai)
                     adicionarAbertos = False
 
             if adicionarAbertos == True:
