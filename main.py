@@ -49,11 +49,26 @@ def escolheMelhor(lista):
 
 
 
-
-
-
-
 def heuristica_hill_climbing(raiz: nodeState, obj, nivelmax):
+    atualizaErrados(raiz, obj)
+    nodeAtual = raiz
+    
+    while nodeAtual.nivel < nivelmax:
+        if nodeAtual.matriz == obj:
+            return 'SUCESSO', nodeAtual
+        
+        nodeAtual.filhos = gerar_filhos(nodeAtual) #.filhos é lista, gerar_filhos() retorna lista
+        
+        nodeAtual = escolheMelhor(nodeAtual.filhos) #escolheMelhor() retorna node
+    return 'FALHA', None
+
+
+
+
+
+
+
+def heuristica_melhorescolha(raiz: nodeState, obj, nivelmax):
     atualizaErrados(raiz, obj)
 
     ABERTOS = [raiz]
@@ -90,6 +105,7 @@ def heuristica_hill_climbing(raiz: nodeState, obj, nivelmax):
                 ABERTOS.append(node)
         #############
         printanode(X)
+    return 'FALHA', None
 
 
 
@@ -97,8 +113,6 @@ def heuristica_hill_climbing(raiz: nodeState, obj, nivelmax):
 
 
 
-def heuristica_melhorescolha(raiz: nodeState, obj):
-    return
 
 
 
@@ -143,9 +157,9 @@ if __name__ == "__main__":
     
     match escolha:
         case 1:
+            exit(f'ainda nao feito!')
             resultado, filhoFinal = heuristica_hill_climbing(raiz, matrizObjetivo, nivelMax)
         case 2:
-            exit(f'ainda nao feito!')
             resultado, filhoFinal = heuristica_melhorescolha(raiz, matrizObjetivo, nivelMax)
         case _:
             exit(f'1 ou 2 pls!')
