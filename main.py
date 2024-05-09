@@ -59,7 +59,12 @@ def heuristica_hill_climbing(raiz: nodeState, obj, nivelmax):
         
         nodeAtual.filhos = gerar_filhos(nodeAtual) #.filhos é lista, gerar_filhos() retorna lista
         
+        for node in nodeAtual.filhos:
+            atualizaErrados(node, obj)
+        
         nodeAtual = escolheMelhor(nodeAtual.filhos) #escolheMelhor() retorna node
+        
+        printanode(nodeAtual)
     return 'FALHA', None
 
 
@@ -130,9 +135,9 @@ def heuristica_melhorescolha(raiz: nodeState, obj, nivelmax):
 
 if __name__ == "__main__":
     #0 = vazio
-    raiz = nodeState([4, 3, 5,
-                      1, 2, 6,
-                      7, 0, 8])
+    raiz = nodeState([0, 1, 3,
+                      5, 2, 6,
+                      4, 7, 8])
     matrizObjetivo = [1, 2, 3,
                       4, 5, 6,
                       7, 8, 0]
@@ -157,7 +162,6 @@ if __name__ == "__main__":
     
     match escolha:
         case 1:
-            exit(f'ainda nao feito!')
             resultado, filhoFinal = heuristica_hill_climbing(raiz, matrizObjetivo, nivelMax)
         case 2:
             resultado, filhoFinal = heuristica_melhorescolha(raiz, matrizObjetivo, nivelMax)
@@ -174,11 +178,13 @@ if __name__ == "__main__":
         printanode(filhoFinal)
         print(f'\tPrintando caminho:\n ', end='')
     
-    movimentos = []
-    while filhoFinal.pai != None:
-        movimentos.append(filhoFinal.movimento)
-        filhoFinal = filhoFinal.pai
-    
-    for i in reversed(range(len(movimentos))):
-        print(f'{movimentos[i]}, ', end='')
-    print(f'\n')
+        movimentos = []
+        while filhoFinal.pai != None:
+            movimentos.append(filhoFinal.movimento)
+            filhoFinal = filhoFinal.pai
+        
+        for i in reversed(range(len(movimentos))):
+            print(f'{movimentos[i]}, ', end='')
+        print(f'\n')
+    else:
+        print(f'\n\tErro! Não foi achado o objetivo.')
